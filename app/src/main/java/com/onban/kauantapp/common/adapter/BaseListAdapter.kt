@@ -20,10 +20,10 @@ abstract class BaseListAdapter<T, VDB : ViewDataBinding> constructor(
     protected abstract fun initViewHolder(binding: VDB, getItemPosition: () -> Int)
 
     override fun onBindViewHolder(holder: BaseViewHolder<VDB>, position: Int) {
-        bind(holder, getItem(position))
+        bind(holder, position)
     }
 
-    protected abstract fun bind(holder: BaseViewHolder<VDB>, item: T)
+    protected abstract fun bind(holder: BaseViewHolder<VDB>, position: Int)
 }
 
 class BaseViewHolder<VDB : ViewDataBinding> constructor(
