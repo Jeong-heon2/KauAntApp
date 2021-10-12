@@ -9,4 +9,3 @@ dependencyResolutionManagement {
 rootProject.name = "KauAntApp"
 include ':app'
 include ':network'
-include ':local'
