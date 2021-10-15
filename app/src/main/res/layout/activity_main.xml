@@ -6,6 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/app_background"
         tools:context=".view.MainActivity">
 
         <EditText
@@ -35,6 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edt_search"
             app:layout_constraintBottom_toBottomOf="parent"
-                />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
