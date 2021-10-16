@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.onban.kauantapp.R
 import com.onban.kauantapp.common.adapter.MainListAdapter
 import com.onban.kauantapp.common.adapter.StickyHeaderItemDecoration
+import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.databinding.ActivityMainBinding
 import com.onban.kauantapp.getData
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,9 +22,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        inject()
         initViews()
     }
+
+    private fun inject() {
+        // Make Dagger instantiate @Inject fields in MainActivity
+        (applicationContext as GlobalApp).appComponent.inject(this)
+    }
+
     private fun initViews() {
         adapter = MainListAdapter()
         with(binding) {
