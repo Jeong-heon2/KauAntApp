@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.onban.kauantapp.viewmodel.MainViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -37,6 +43,7 @@
             app:layout_constraintTop_toBottomOf="@id/edt_search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            submitList="@{viewmodel.mainNewsList}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

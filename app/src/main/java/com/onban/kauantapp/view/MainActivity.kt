@@ -8,6 +8,7 @@ import com.onban.kauantapp.common.adapter.MainListAdapter
 import com.onban.kauantapp.common.adapter.StickyHeaderItemDecoration
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.databinding.ActivityMainBinding
+import com.onban.kauantapp.getData
 import com.onban.kauantapp.viewmodel.MainViewModel
 import javax.inject.Inject
 
@@ -20,9 +21,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         inject()
         super.onCreate(savedInstanceState)
+        initBinding()
+        initViews()
+    }
+
+    private fun initBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initViews()
+        binding.viewmodel = viewmodel
+        binding.lifecycleOwner = this
     }
 
     private fun inject() {
@@ -35,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             rcvMain.adapter = adapter
             rcvMain.addItemDecoration(StickyHeaderItemDecoration(getSectionCallback()))
-            //adapter.submitList(getData())
+            adapter.submitList(getData())
         }
     }
 

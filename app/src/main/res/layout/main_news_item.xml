@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="newsData"
+            type="com.onban.network.data.NewsData" />
+    </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,7 +30,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                textFromDate="@{newsData.date}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -59,6 +66,7 @@
                 app:layout_constraintTop_toBottomOf="@id/imageView_company_logo"
                 app:layout_constraintStart_toStartOf="@id/imageView_company_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
+                textFromString="@{newsData.title}"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

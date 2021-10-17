@@ -25,10 +25,10 @@ class MainListAdapter : BaseListAdapter<NewsData, MainNewsItemBinding>(NewsDataD
     override fun bind(holder: BaseViewHolder<MainNewsItemBinding>, position: Int) {
         val item = getItem(position)
         with(holder.binding) {
-            textViewTitle.text = item.title
-            textViewItemDate.text = item.date
+            newsData = item
 
             textViewItemDate.visibility = if (isHeader(position)) View.VISIBLE else View.INVISIBLE
+            executePendingBindings()
         }
     }
 
@@ -47,7 +47,8 @@ class MainListAdapter : BaseListAdapter<NewsData, MainNewsItemBinding>(NewsDataD
 
         //지금 뷰홀더에는 Item1Binding이 그려져있고  얘는 그려지지 않은 녀석임
         val binding = MainNewsTimelineBinding.inflate(LayoutInflater.from(list.context), list, false)
-        binding.textViewTimelineDate.text = item.date
+        binding.date = item.date
+        binding.executePendingBindings()
         return binding.root
     }
 }

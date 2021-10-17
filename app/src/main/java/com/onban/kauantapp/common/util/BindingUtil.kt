@@ -16,3 +16,9 @@ fun <T, VH : RecyclerView.ViewHolder> RecyclerView.submitList(list: List<T>?) {
         (adapter as ListAdapter<T, VH>).submitList(list)
     }
 }
+
+@BindingAdapter("textFromDate")
+fun TextView.setTextFromDate(date: String) {
+    val test = date.split("T")[0]
+    text = date.split("T")[0]
+}

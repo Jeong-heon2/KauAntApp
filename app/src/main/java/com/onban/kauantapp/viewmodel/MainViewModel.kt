@@ -15,10 +15,11 @@ class MainViewModel @Inject constructor(
 ): ViewModel() {
     private var _mainNewsList = MutableLiveData<List<NewsData>>()
     val mainNewsList: LiveData<List<NewsData>> = _mainNewsList
+    private var mainNewsPageNo = 0
 
-    fun fetchNews(pageNo: Int, company: String) {
+    fun fetchNextNews() {
         viewModelScope.launch {
-            val res = repository.getCompanyNews(pageNo, company)
+            val res = repository.getCompanyNews(mainNewsPageNo++, "이스트소프트")// company는 나중에 변수로 변경해야 함
             if (res.isSuccessful) {
                 _mainNewsList.value = res.body()?.newsList
                 _mainNewsList.value?.get(0)?.let { Log.d("Test", it.title) }
