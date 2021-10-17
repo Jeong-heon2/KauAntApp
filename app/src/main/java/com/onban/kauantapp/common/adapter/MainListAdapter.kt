@@ -1,15 +1,19 @@
 package com.onban.kauantapp.common.adapter
 
+import android.content.res.ColorStateList
+import android.graphics.drawable.GradientDrawable
 import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.onban.kauantapp.data.CompanyLogoInfo
 import com.onban.kauantapp.databinding.MainNewsItemBinding
 import com.onban.kauantapp.databinding.MainNewsTimelineBinding
 import com.onban.network.data.NewsData
 import java.util.*
+
 
 class MainListAdapter : BaseListAdapter<NewsData, MainNewsItemBinding>(NewsDataDiffCallback) {
 
@@ -28,6 +32,15 @@ class MainListAdapter : BaseListAdapter<NewsData, MainNewsItemBinding>(NewsDataD
             newsData = item
 
             textViewItemDate.visibility = if (isHeader(position)) View.VISIBLE else View.INVISIBLE
+
+            val companyLogoInfo = CompanyLogoInfo.valueOf(item.company)
+            val back = GradientDrawable().apply {
+                cornerRadius = 20f
+                color = ColorStateList.valueOf(companyLogoInfo.backColor)
+            }
+            textViewCompanyLogo.background = back
+            textViewCompanyLogo.text = companyLogoInfo.text
+            textViewCompanyLogo.setTextColor(companyLogoInfo.textColor)
             executePendingBindings()
         }
     }
