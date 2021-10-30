@@ -6,15 +6,26 @@ import com.onban.kauantapp.common.adapter.HomeListAdapter
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.common.view.BaseActivity
 import com.onban.kauantapp.databinding.ActivityHomeBinding
-import com.onban.network.data.CompanyEntity
+import com.onban.kauantapp.viewmodel.HomeViewModel
+import javax.inject.Inject
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private lateinit var homeListAdapter: HomeListAdapter
 
+    @Inject lateinit var homeViewModel: HomeViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setBinding()
         initViews()
+        initData()
+    }
+
+    private fun setBinding() {
+        with(binding) {
+            viewModel = homeViewModel
+        }
     }
 
     override fun createBinding(): ActivityHomeBinding {
@@ -32,18 +43,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             rcvHome.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             homeListAdapter = HomeListAdapter()
             rcvHome.adapter = homeListAdapter
-            homeListAdapter.submitList(listOf(
-                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyEntity("이스트소프트", "EST", "#000000", "#FFFFFF"),
-                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyEntity("이스트소프트", "EST", "#000000", "#FFFFFF"),
-                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-            ))
-
         }
+    }
+
+    private fun initData() {
+        homeViewModel.fetchCompanyList()
     }
 }
