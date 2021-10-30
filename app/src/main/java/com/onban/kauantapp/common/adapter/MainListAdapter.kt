@@ -29,15 +29,7 @@ class MainListAdapter : BaseListAdapter<NewsData, MainNewsItemBinding>(NewsDataD
             newsData = item
 
             textViewItemDate.visibility = if (isHeader(position)) View.VISIBLE else View.INVISIBLE
-//
-//            val companyLogoInfo = CompanyLogoInfo.valueOf(item.company)
-//            val back = GradientDrawable().apply {
-//                cornerRadius = 20f
-//                color = ColorStateList.valueOf(companyLogoInfo.backColor)
-//            }
-//            textViewCompanyLogo.background = back
-//            textViewCompanyLogo.text = companyLogoInfo.text
-//            textViewCompanyLogo.setTextColor(companyLogoInfo.textColor)
+
             executePendingBindings()
         }
     }

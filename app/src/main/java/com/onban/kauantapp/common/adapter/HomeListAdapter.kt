@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import com.onban.kauantapp.databinding.HomeLogoItemBinding
 import com.onban.network.data.CompanyEntity
 
-class HomeListAdapter : BaseListAdapter<CompanyEntity, HomeLogoItemBinding>(CompanyLogoDiffCallback) {
+class HomeListAdapter(
+    val onItemClick: (CompanyEntity) -> Unit,
+) : BaseListAdapter<CompanyEntity, HomeLogoItemBinding>(CompanyLogoDiffCallback) {
 
     override fun createBinding(parent: ViewGroup): HomeLogoItemBinding {
         val inflater = LayoutInflater.from(parent.context)
@@ -14,6 +16,11 @@ class HomeListAdapter : BaseListAdapter<CompanyEntity, HomeLogoItemBinding>(Comp
     }
 
     override fun initViewHolder(binding: HomeLogoItemBinding, getItemPosition: () -> Int) {
+        with(binding) {
+            root.setOnClickListener {
+                onItemClick.invoke(getItem(getItemPosition()))
+            }
+        }
     }
 
     override fun bind(holder: BaseViewHolder<HomeLogoItemBinding>, position: Int) {

@@ -1,5 +1,6 @@
 package com.onban.kauantapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.onban.kauantapp.common.adapter.HomeListAdapter
@@ -39,9 +40,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private fun initViews() {
         with(binding) {
             rcvHome.setHasFixedSize(true)
-
             rcvHome.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            homeListAdapter = HomeListAdapter()
+            homeListAdapter = HomeListAdapter {
+                val intent = Intent(this@HomeActivity, MainActivity::class.java)
+                intent.putExtra("company", it)
+                startActivity(intent)
+            }
             rcvHome.adapter = homeListAdapter
         }
     }
