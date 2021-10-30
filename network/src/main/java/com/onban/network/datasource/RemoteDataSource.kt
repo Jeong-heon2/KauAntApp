@@ -9,4 +9,5 @@ class RemoteDataSource @Inject constructor(
     private val newsApi: NewsApi
 ) {
     suspend fun getCompanyNews(pageNo: Int, company: String) = newsApi.getNews(pageNo, company)
+    suspend fun getCompnayList() = newsApi.getCompanyList()
 }
