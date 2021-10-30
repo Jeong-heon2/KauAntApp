@@ -3,12 +3,11 @@ package com.onban.kauantapp.common.util
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.onban.kauantapp.data.CompanyLogo
+import com.onban.network.data.CompanyEntity
 
 @BindingAdapter("textFromString")
 fun TextView.setTextFromString(str: String) {
@@ -29,13 +28,13 @@ fun TextView.setTextFromDate(date: String) {
 }
 
 @BindingAdapter("textFromCompanyLogo")
-fun TextView.setTextFromCompanyLogo(companyLogo: CompanyLogo) {
+fun TextView.setTextFromCompanyLogo(companyEntity: CompanyEntity) {
     val back = GradientDrawable().apply {
         cornerRadius = 20f
-        color = ColorStateList.valueOf(Color.parseColor(companyLogo.backColor))
+        color = ColorStateList.valueOf(Color.parseColor(companyEntity.backgroundColor))
     }
     this.background = back
-    this.text = companyLogo.logo
+    this.text = companyEntity.logo
     this.layoutParams?.let {
         it.height = RandUtil.getRandInt(300, 500)
         this.layoutParams = it

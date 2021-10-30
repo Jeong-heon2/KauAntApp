@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.onban.kauantapp.common.adapter.HomeListAdapter
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.common.view.BaseActivity
-import com.onban.kauantapp.data.CompanyLogo
 import com.onban.kauantapp.databinding.ActivityHomeBinding
+import com.onban.network.data.CompanyEntity
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
@@ -33,15 +33,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             homeListAdapter = HomeListAdapter()
             rcvHome.adapter = homeListAdapter
             homeListAdapter.submitList(listOf(
-                CompanyLogo("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyLogo("이스트소프트", "EST", "#000000", "#FFFFFF"),
-                CompanyLogo("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyLogo("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyLogo("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyLogo("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyLogo("이스트소프트", "EST", "#000000", "#FFFFFF"),
-                CompanyLogo("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
-                CompanyLogo("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
+                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
+                CompanyEntity("이스트소프트", "EST", "#000000", "#FFFFFF"),
+                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
+                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
+                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
+                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
+                CompanyEntity("이스트소프트", "EST", "#000000", "#FFFFFF"),
+                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
+                CompanyEntity("이스트소프트", "EST", "#184cf5", "#FFFFFF"),
             ))
 
         }

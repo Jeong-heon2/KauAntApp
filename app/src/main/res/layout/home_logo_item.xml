@@ -6,7 +6,7 @@
     <data>
         <variable
             name="companyLogo"
-            type="com.onban.kauantapp.data.CompanyLogo" />
+            type="com.onban.network.data.CompanyEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
