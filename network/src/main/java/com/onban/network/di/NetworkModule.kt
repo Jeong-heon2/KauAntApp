@@ -1,8 +1,10 @@
 package com.onban.network.di
 
 import com.onban.network.api.NewsApi
+import com.onban.network.mapper.NetworkResponseAdapterFactory
 import dagger.Module
 import dagger.Provides
+import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,9 +15,10 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesNewsApi(converterFactory: Converter.Factory): NewsApi {
+    fun providesNewsApi(converterFactory: Converter.Factory, callAdapterFactory: CallAdapter.Factory): NewsApi {
         return Retrofit.Builder()
             .baseUrl("http://3.37.25.179")
+            .addCallAdapterFactory(callAdapterFactory)
             .addConverterFactory(converterFactory)
             .build()
             .create(NewsApi::class.java)
@@ -25,5 +28,11 @@ class NetworkModule {
     @Singleton
     fun providesConverterFactory(): Converter.Factory {
         return GsonConverterFactory.create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCallAdapterFactory(): CallAdapter.Factory {
+        return NetworkResponseAdapterFactory()
     }
 }

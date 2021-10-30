@@ -1,38 +1,36 @@
 package com.onban.kauantapp.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.onban.kauantapp.common.adapter.MainListAdapter
 import com.onban.kauantapp.common.adapter.StickyHeaderItemDecoration
 import com.onban.kauantapp.common.app.GlobalApp
+import com.onban.kauantapp.common.view.BaseActivity
 import com.onban.kauantapp.databinding.ActivityMainBinding
-import com.onban.kauantapp.getData
 import com.onban.kauantapp.viewmodel.MainViewModel
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: MainListAdapter
     @Inject lateinit var viewmodel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        inject()
         super.onCreate(savedInstanceState)
-        initBinding()
+        setBinding()
         initViews()
     }
 
-    private fun initBinding() {
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        binding.viewmodel = viewmodel
-        binding.lifecycleOwner = this
+    override fun createBinding(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private fun inject() {
+    private fun setBinding() {
+        binding.viewmodel = viewmodel
+    }
+
+    override fun inject() {
         // Make Dagger instantiate @Inject fields in MainActivity
         (applicationContext as GlobalApp).appComponent.inject(this)
     }
@@ -42,8 +40,12 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             rcvMain.adapter = adapter
             rcvMain.addItemDecoration(StickyHeaderItemDecoration(getSectionCallback()))
-            adapter.submitList(getData())
         }
+        initData()
+    }
+
+    private fun initData() {
+        viewmodel.fetchNextNews()
     }
 
     private fun getSectionCallback(): StickyHeaderItemDecoration.SectionCallback {
