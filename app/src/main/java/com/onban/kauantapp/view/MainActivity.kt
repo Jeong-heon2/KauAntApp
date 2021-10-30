@@ -8,7 +8,6 @@ import com.onban.kauantapp.common.adapter.MainListAdapter
 import com.onban.kauantapp.common.adapter.StickyHeaderItemDecoration
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.databinding.ActivityMainBinding
-import com.onban.kauantapp.getData
 import com.onban.kauantapp.viewmodel.MainViewModel
 import javax.inject.Inject
 
@@ -42,8 +41,12 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             rcvMain.adapter = adapter
             rcvMain.addItemDecoration(StickyHeaderItemDecoration(getSectionCallback()))
-            adapter.submitList(getData())
         }
+        initData()
+    }
+
+    private fun initData() {
+        viewmodel.fetchNextNews()
     }
 
     private fun getSectionCallback(): StickyHeaderItemDecoration.SectionCallback {
