@@ -15,7 +15,7 @@ class NetworkModule {
     @Singleton
     fun providesNewsApi(converterFactory: Converter.Factory): NewsApi {
         return Retrofit.Builder()
-            .baseUrl("3.37.25.179")
+            .baseUrl("http://3.37.25.179")
             .addConverterFactory(converterFactory)
             .build()
             .create(NewsApi::class.java)
