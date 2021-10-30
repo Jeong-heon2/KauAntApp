@@ -1,7 +1,10 @@
 package com.onban.kauantapp.view
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.onban.kauantapp.common.adapter.HomeListAdapter
 import com.onban.kauantapp.common.app.GlobalApp
@@ -20,6 +23,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         super.onCreate(savedInstanceState)
         setBinding()
         initViews()
+        setStartAnimation()
         initData()
     }
 
@@ -52,5 +56,44 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun initData() {
         homeViewModel.fetchCompanyList()
+    }
+
+    private fun setStartAnimation() {
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            startTitleAnimation()
+            startRcvAnimation()
+        }
+    }
+
+    private fun startTitleAnimation() {
+        with(binding) {
+            val translateX = PropertyValuesHolder.ofFloat(
+                View.TRANSLATION_X,
+                -tvHomeTitle.width.toFloat(),
+                0f
+            )
+            ObjectAnimator.ofPropertyValuesHolder(
+                tvHomeTitle,
+                translateX,
+            ).apply {
+                duration = 600L
+            }.start()
+        }
+    }
+
+    private fun startRcvAnimation() {
+        with(binding) {
+            val translateY = PropertyValuesHolder.ofFloat(
+                View.TRANSLATION_Y,
+                rcvHome.height.toFloat(),
+                0f
+            )
+            ObjectAnimator.ofPropertyValuesHolder(
+                rcvHome,
+                translateY,
+            ).apply {
+                duration = 600L
+            }.start()
+        }
     }
 }

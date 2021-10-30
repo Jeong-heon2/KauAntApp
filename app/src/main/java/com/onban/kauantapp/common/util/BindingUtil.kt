@@ -37,7 +37,7 @@ fun TextView.setTextFromCompanyLogo(companyEntity: CompanyEntity) {
     this.text = companyEntity.logo
     this.setTextColor(Color.parseColor(companyEntity.textColor))
     this.layoutParams?.let {
-        it.height = RandUtil.getRandInt(300, 500)
+        it.height = RandUtil.getRandInt(250, 600)
         this.layoutParams = it
     }
 }
