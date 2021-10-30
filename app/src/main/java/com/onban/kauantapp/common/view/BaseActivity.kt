@@ -1,15 +1,15 @@
 package com.onban.kauantapp.common.view
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 
 abstract class BaseActivity<VDB: ViewDataBinding> : AppCompatActivity() {
     protected lateinit var binding: VDB
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         inject()
-        super.onCreate(savedInstanceState, persistentState)
         initBinding()
     }
 
