@@ -4,9 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.onban.kauantapp.data.ViewModelEvent
 import com.onban.kauantapp.repo.Repository
 import com.onban.network.data.NetworkResponse
 import com.onban.network.data.NewsData
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,6 +44,7 @@ class MainViewModel @Inject constructor(
                         }
                         else -> {
                             _fetchLock.value = false
+                            triggerNetworkErrorEvent("서버와 연결이 끊겼습니다 :(")
                         }
                     }
                 }
@@ -54,5 +58,14 @@ class MainViewModel @Inject constructor(
 
     fun setCompany(companyName: String) {
         this.companyName = companyName
+    }
+
+    private val eventChannel = Channel<ViewModelEvent>()
+    val eventFlow = eventChannel.receiveAsFlow()
+
+    private fun triggerNetworkErrorEvent(msg: String) {
+        viewModelScope.launch {
+            eventChannel.send(ViewModelEvent.NetworkError(msg))
+        }
     }
 }

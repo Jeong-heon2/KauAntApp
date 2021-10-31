@@ -2,16 +2,20 @@ package com.onban.kauantapp.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.onban.kauantapp.R
 import com.onban.kauantapp.common.adapter.MainListAdapter
 import com.onban.kauantapp.common.adapter.StickyHeaderItemDecoration
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.common.view.BaseActivity
+import com.onban.kauantapp.data.ViewModelEvent
 import com.onban.kauantapp.databinding.ActivityMainBinding
 import com.onban.kauantapp.viewmodel.MainViewModel
 import com.onban.network.data.CompanyEntity
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -28,6 +32,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setBinding()
         initViews()
         initData()
+        observeEvent()
     }
 
     override fun createBinding(): ActivityMainBinding {
@@ -85,6 +90,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
             override fun getHeaderLayoutView(list: RecyclerView, position: Int): View? {
                 return adapter.getHeaderView(list, position)
+            }
+        }
+    }
+
+    private fun observeEvent() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.eventFlow.collect {
+                when (it) {
+                    is ViewModelEvent.NetworkError -> {
+                        Snackbar.make(binding.root, it.message, Snackbar.LENGTH_LONG).show()
+                    }
+                }
             }
         }
     }
