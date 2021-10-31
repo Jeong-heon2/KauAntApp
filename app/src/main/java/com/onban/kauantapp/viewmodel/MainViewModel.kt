@@ -18,13 +18,12 @@ class MainViewModel @Inject constructor(
     val mainNewsList: LiveData<List<NewsData>> = _mainNewsList
     private var mainNewsPageNo = 0
 
-    fun fetchNextNews() {
+    fun fetchNextNews(companyName: String) {
         viewModelScope.launch {
             // company는 나중에 변수로 변경해야 함
-            when (val res = repository.getCompanyNews(mainNewsPageNo++, "이스트소프트")) {
+            when (val res = repository.getCompanyNews(mainNewsPageNo++, companyName)) {
                 is NetworkResponse.Success -> {
                     _mainNewsList.value = res.body.newsList
-                    _mainNewsList.value?.get(0)?.let { Log.d("Test", it.title) }
                 }
             }
         }
