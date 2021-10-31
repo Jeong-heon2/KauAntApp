@@ -3,6 +3,8 @@ package com.onban.kauantapp.common.util
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
@@ -18,6 +20,13 @@ fun TextView.setTextFromString(str: String) {
 fun <T, VH : RecyclerView.ViewHolder> RecyclerView.submitList(list: List<T>?) {
     list?.let {
         (adapter as ListAdapter<T, VH>).submitList(list)
+    }
+}
+
+@BindingAdapter(value = ["list", "callback"], requireAll = true)
+fun <T, VH : RecyclerView.ViewHolder> RecyclerView.submitList(list: List<T>?, callback: Runnable) {
+    list?.let {
+        (adapter as ListAdapter<T, VH>).submitList(list, callback)
     }
 }
 
@@ -39,5 +48,14 @@ fun TextView.setTextFromCompanyLogo(companyEntity: CompanyEntity) {
     this.layoutParams?.let {
         it.height = RandUtil.getRandInt(250, 600)
         this.layoutParams = it
+    }
+}
+
+@BindingAdapter("visibleProgressBar")
+fun ProgressBar.setVisibleProgressBar(state: Boolean) {
+    if (state) {
+        this.visibility = View.VISIBLE
+    } else {
+        this.visibility = View.GONE
     }
 }
