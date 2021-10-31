@@ -50,8 +50,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val companyEntity = intent.extras?.get("company") as? CompanyEntity
         companyEntity?.let {
             binding.tvMainTitle.text = getString(R.string.main_title, it.name)
+            viewmodel.fetchNextNews(it.name)
         }
-        viewmodel.fetchNextNews()
     }
 
     private fun getSectionCallback(): StickyHeaderItemDecoration.SectionCallback {
