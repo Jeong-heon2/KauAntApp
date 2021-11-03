@@ -1,5 +1,6 @@
 package com.onban.kauantapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private lateinit var adapter: MainListAdapter
     @Inject lateinit var viewModel: MainViewModel
+    private lateinit var companyEntity: CompanyEntity
 
     private val submitListCallback = Runnable {
         viewModel.setFetchEnable()
@@ -52,7 +54,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun initViews() {
-        adapter = MainListAdapter()
+        adapter = MainListAdapter {
+            val intent = Intent(this, AnalysisActivity::class.java)
+            intent.putExtra("newsData", it)
+            intent.putExtra("company", companyEntity)
+            startActivity(intent)
+        }
+
         with(binding) {
             rcvMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
@@ -74,12 +82,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun initData() {
-        val companyEntity = intent.extras?.get("company") as? CompanyEntity
-        companyEntity?.let {
-            binding.tvMainTitle.text = getString(R.string.main_title, it.name)
-            viewModel.setCompany(it.name)
-            viewModel.fetchNextNews()
-        }
+        companyEntity = intent.getSerializableExtra("company") as CompanyEntity
+        binding.tvMainTitle.text = getString(R.string.main_title, companyEntity.name)
+        viewModel.setCompany(companyEntity.name)
+        viewModel.fetchNextNews()
     }
 
     private fun getSectionCallback(): StickyHeaderItemDecoration.SectionCallback {

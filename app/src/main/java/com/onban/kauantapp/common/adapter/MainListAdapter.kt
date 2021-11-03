@@ -12,7 +12,9 @@ import com.onban.network.data.NewsData
 import java.util.*
 
 
-class MainListAdapter : BaseListAdapter<NewsData, MainNewsItemBinding>(NewsDataDiffCallback) {
+class MainListAdapter(
+    private val onClick: (NewsData) -> Unit
+) : BaseListAdapter<NewsData, MainNewsItemBinding>(NewsDataDiffCallback) {
 
     override fun createBinding(parent: ViewGroup): MainNewsItemBinding {
         val inflater = LayoutInflater.from(parent.context)
@@ -20,7 +22,9 @@ class MainListAdapter : BaseListAdapter<NewsData, MainNewsItemBinding>(NewsDataD
     }
 
     override fun initViewHolder(binding: MainNewsItemBinding, getItemPosition: () -> Int) {
-
+        binding.root.setOnClickListener {
+            onClick.invoke(getItem(getItemPosition.invoke()))
+        }
     }
 
     override fun bind(holder: BaseViewHolder<MainNewsItemBinding>, position: Int) {

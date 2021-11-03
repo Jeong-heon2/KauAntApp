@@ -36,8 +36,8 @@ fun TextView.setTextFromDate(date: String) {
     text = tokens[1] + "-" + tokens[2]
 }
 
-@BindingAdapter("textFromCompanyLogo")
-fun TextView.setTextFromCompanyLogo(companyEntity: CompanyEntity) {
+@BindingAdapter("randomSizeTextFromCompany")
+fun TextView.setRandomSizeTextFromCompany(companyEntity: CompanyEntity) {
     val back = GradientDrawable().apply {
         cornerRadius = 20f
         color = ColorStateList.valueOf(Color.parseColor(companyEntity.backgroundColor))
@@ -49,6 +49,17 @@ fun TextView.setTextFromCompanyLogo(companyEntity: CompanyEntity) {
         it.height = RandUtil.getRandInt(250, 600)
         this.layoutParams = it
     }
+}
+
+@BindingAdapter("textFromCompany")
+fun TextView.setTextCompany(companyEntity: CompanyEntity) {
+    val back = GradientDrawable().apply {
+        cornerRadius = 20f
+        color = ColorStateList.valueOf(Color.parseColor(companyEntity.backgroundColor))
+    }
+    this.background = back
+    this.text = companyEntity.logo
+    this.setTextColor(Color.parseColor(companyEntity.textColor))
 }
 
 @BindingAdapter("visibleProgressBar")
