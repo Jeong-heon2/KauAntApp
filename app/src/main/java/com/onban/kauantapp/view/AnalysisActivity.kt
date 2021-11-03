@@ -1,7 +1,6 @@
 package com.onban.kauantapp.view
 
 import android.os.Bundle
-import androidx.core.view.ViewCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.onban.kauantapp.R
 import com.onban.kauantapp.common.adapter.AnalysisListAdapter
@@ -27,6 +26,25 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
             newsData = intent.getSerializableExtra("newsData") as NewsData
             company = intent.getSerializableExtra("company") as CompanyEntity
             vp2Analysis.adapter = adapter
+
+            vp2Analysis.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            vp2Analysis.offscreenPageLimit = 2
+            val pageMargin = resources.getDimensionPixelOffset(R.dimen.pageMargin).toFloat()
+            val pageOffset = resources.getDimensionPixelOffset(R.dimen.offset).toFloat()
+            vp2Analysis.setPageTransformer { page, position ->
+                val myOffset = position * -(2 * pageOffset + pageMargin)
+                if (position < -1) {
+                    page.translationX = -myOffset
+                } else if (position <= 1) {
+                    val scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f))
+                    page.translationX = myOffset
+                    page.scaleY = scaleFactor
+                    page.alpha = scaleFactor
+                } else {
+                    page.alpha = 0f
+                    page.translationX = myOffset
+                }
+            }
         }
     }
 
