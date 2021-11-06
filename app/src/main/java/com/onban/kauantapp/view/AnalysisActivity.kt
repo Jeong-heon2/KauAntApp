@@ -16,15 +16,35 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getDataFromIntent()
         initAdapter()
         initViews()
         adapter.submitList(getDummyData())
     }
 
-    fun initViews() {
+    override fun createBinding(): ActivityAnalysisBinding {
+        return ActivityAnalysisBinding.inflate(layoutInflater)
+    }
+
+    override fun inject() {
+        (applicationContext as GlobalApp).appComponent.inject(this)
+    }
+
+    private fun initViews() {
+        setViewPager()
+        setSimilarityProgress(55f)
+        similarityProgressAnimationStart()
+    }
+
+    private fun getDataFromIntent() {
         with(binding) {
             newsData = intent.getSerializableExtra("newsData") as NewsData
             company = intent.getSerializableExtra("company") as CompanyEntity
+        }
+    }
+
+    private fun setViewPager() {
+        with(binding) {
             vp2Analysis.adapter = adapter
 
             vp2Analysis.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -48,16 +68,17 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
         }
     }
 
-    fun initAdapter() {
+    private fun initAdapter() {
         adapter = AnalysisListAdapter()
     }
 
-    override fun createBinding(): ActivityAnalysisBinding {
-        return ActivityAnalysisBinding.inflate(layoutInflater)
+    private fun setSimilarityProgress(percent: Float) {
+        binding.cpvNews.resetCurrentPercentage()
+        binding.cpvNews.setPercentage(percent)
     }
 
-    override fun inject() {
-        (applicationContext as GlobalApp).appComponent.inject(this)
+    private fun similarityProgressAnimationStart() {
+        binding.cpvNews.animateProgress()
     }
 }
 data class DummyData(
