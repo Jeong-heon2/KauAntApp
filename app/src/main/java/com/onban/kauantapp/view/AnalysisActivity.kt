@@ -1,12 +1,14 @@
 package com.onban.kauantapp.view
 
 import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import androidx.viewpager2.widget.ViewPager2
 import com.onban.kauantapp.R
 import com.onban.kauantapp.common.adapter.AnalysisListAdapter
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.common.view.BaseActivity
 import com.onban.kauantapp.databinding.ActivityAnalysisBinding
+import com.onban.kauantapp.view.custom.StockGraphView
 import com.onban.network.data.CompanyEntity
 import com.onban.network.data.NewsData
 
@@ -14,8 +16,19 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
 
     private lateinit var adapter: AnalysisListAdapter
 
+    val dummyStockList = MutableLiveData(
+        listOf<StockGraphView.StockItem>(
+            StockGraphView.StockItem(1.2f, "2020.09.09"),
+            StockGraphView.StockItem(0.2f, "2020.09.10"),
+            StockGraphView.StockItem(3.5f, "2020.09.11"),
+            StockGraphView.StockItem(-2.5f, "2020.09.12"),
+            StockGraphView.StockItem(5.5f, "2020.09.13"),
+        )
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setBinding()
         getDataFromIntent()
         initAdapter()
         initViews()
@@ -28,6 +41,12 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
 
     override fun inject() {
         (applicationContext as GlobalApp).appComponent.inject(this)
+    }
+
+    private fun setBinding() {
+        with(binding) {
+            activity = this@AnalysisActivity
+        }
     }
 
     private fun initViews() {

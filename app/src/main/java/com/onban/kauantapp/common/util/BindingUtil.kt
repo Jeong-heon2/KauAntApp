@@ -3,12 +3,14 @@ package com.onban.kauantapp.common.util
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.onban.kauantapp.view.custom.StockGraphView
 import com.onban.network.data.CompanyEntity
 
 @BindingAdapter("textFromString")
@@ -68,5 +70,12 @@ fun ProgressBar.setVisibleProgressBar(state: Boolean) {
         this.visibility = View.VISIBLE
     } else {
         this.visibility = View.GONE
+    }
+}
+
+@BindingAdapter("graphData")
+fun StockGraphView.setGraphData(list: List<StockGraphView.StockItem>?) {
+    list?.let {
+        this.updateGraph(it)
     }
 }

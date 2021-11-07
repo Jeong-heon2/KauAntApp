@@ -10,6 +10,9 @@
         <variable
             name="newsData"
             type="com.onban.network.data.NewsData" />
+        <variable
+            name="activity"
+            type="com.onban.kauantapp.view.AnalysisActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -141,6 +144,24 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cnstl_graph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/cnstl_similarity"
+            android:background="@drawable/main_card_back"
+            >
+            <com.onban.kauantapp.view.custom.StockGraphView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                graphData="@{activity.dummyStockList}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
