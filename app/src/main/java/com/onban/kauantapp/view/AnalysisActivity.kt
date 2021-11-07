@@ -20,8 +20,8 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
         listOf<StockGraphView.StockItem>(
             StockGraphView.StockItem(1.2f, "2020.09.09"),
             StockGraphView.StockItem(0.2f, "2020.09.10"),
-            StockGraphView.StockItem(3.5f, "2020.09.11"),
-            StockGraphView.StockItem(-2.5f, "2020.09.12"),
+            StockGraphView.StockItem(18.5f, "2020.09.11"),
+            StockGraphView.StockItem(-22.5f, "2020.09.12"),
             StockGraphView.StockItem(5.5f, "2020.09.13"),
         )
     )
