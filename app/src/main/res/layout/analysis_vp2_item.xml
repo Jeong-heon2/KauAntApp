@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="dummyData"
-            type="com.onban.kauantapp.view.DummyData" />
+            name="similarNewsModel"
+            type="com.onban.kauantapp.data.SimilarNewsModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
             android:id="@+id/tv_analysis_vp2_news_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{dummyData.date}"
+            android:text="@{similarNewsModel.date}"
             android:textColor="@color/gray"
             android:layout_margin="10dp"
             android:textSize="16dp"
@@ -32,7 +32,7 @@
             android:id="@+id/tv_analysis_vp2_news_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{dummyData.title}"
+            android:text="@{similarNewsModel.title}"
             android:layout_marginTop="5dp"
             android:textSize="20dp"
             android:maxLines="1"
@@ -49,7 +49,7 @@
             android:id="@+id/tv_analysis_vp2_news_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{dummyData.desc}"
+            android:text="@{similarNewsModel.description}"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:maxLines="2"

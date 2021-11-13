@@ -1,46 +1,54 @@
 package com.onban.kauantapp.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
 import com.onban.kauantapp.R
-import com.onban.kauantapp.common.adapter.AnalysisListAdapter
+import com.onban.kauantapp.common.adapter.SimilarNewsListAdapter
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.common.view.BaseActivity
+import com.onban.kauantapp.data.StockItem
+import com.onban.kauantapp.data.ViewModelEvent
 import com.onban.kauantapp.databinding.ActivityAnalysisBinding
-import com.onban.kauantapp.view.custom.StockGraphView
 import com.onban.kauantapp.viewmodel.AnalysisViewModel
 import com.onban.network.data.CompanyData
 import com.onban.network.data.NewsData
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
 
-    private lateinit var adapter: AnalysisListAdapter
+    private lateinit var adapter: SimilarNewsListAdapter
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: AnalysisViewModel by viewModels { viewModelFactory}
 
+    private val submitListCallback = Runnable {
+        viewModel.setFetchEnable()
+    }
+
     val dummyStockList = MutableLiveData(
-        listOf<StockGraphView.StockItem>(
-            StockGraphView.StockItem(1.2f, "2020.09.09"),
-            StockGraphView.StockItem(0.2f, "2020.09.10"),
-            StockGraphView.StockItem(18.5f, "2020.09.11"),
-            StockGraphView.StockItem(-22.5f, "2020.09.12"),
-            StockGraphView.StockItem(5.5f, "2020.09.13"),
+        listOf<StockItem>(
+            StockItem(1.2f, "2020.09.09"),
+            StockItem(0.2f, "2020.09.10"),
+            StockItem(18.5f, "2020.09.11"),
+            StockItem(-22.5f, "2020.09.12"),
+            StockItem(5.5f, "2020.09.13"),
         )
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setBinding()
-        getDataFromIntent()
+        observeEvent()
+        initViewModel()
         initAdapter()
         initViews()
-        adapter.submitList(getDummyData())
     }
 
     override fun createBinding(): ActivityAnalysisBinding {
@@ -54,6 +62,8 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
     private fun setBinding() {
         with(binding) {
             activity = this@AnalysisActivity
+            viewModel = this@AnalysisActivity.viewModel
+            submitListCallback = this@AnalysisActivity.submitListCallback
             tvAnalysisGraphTitle.text = getString(R.string.analysis_graph_title, "2020.09.11")
         }
     }
@@ -64,11 +74,10 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
         similarityProgressAnimationStart()
     }
 
-    private fun getDataFromIntent() {
-        with(binding) {
-            newsData = intent.getSerializableExtra("newsData") as NewsData
-            company = intent.getSerializableExtra("company") as CompanyData
-        }
+    private fun initViewModel() {
+        viewModel.setMainNews(intent.getSerializableExtra("newsData") as NewsData)
+        viewModel.setCompany(intent.getSerializableExtra("company") as CompanyData)
+        viewModel.fetchNextSimilarityNews()
     }
 
     private fun setViewPager() {
@@ -93,11 +102,19 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
                     page.translationX = myOffset
                 }
             }
+            vp2Analysis.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    if (adapter.itemCount - 1 == position) {
+                        this@AnalysisActivity.viewModel.fetchNextSimilarityNews()
+                    }
+                    this@AnalysisActivity.viewModel.setSelectedSimilarNews(position)
+                }
+            })
         }
     }
 
     private fun initAdapter() {
-        adapter = AnalysisListAdapter()
+        adapter = SimilarNewsListAdapter()
     }
 
     private fun setSimilarityProgress(percent: Float) {
@@ -108,17 +125,16 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
     private fun similarityProgressAnimationStart() {
         binding.cpvNews.animateProgress()
     }
-}
-data class DummyData(
-    val date: String,
-    val title: String,
-    val desc: String,
-)
-fun getDummyData(): List<DummyData> {
-    return listOf(
-        DummyData("2020.09.11", "이스트소프트 상빙ㄹ....", "내욘ㅇㄴㅇ런ㅇ래ㅑ너야ㅐ러ㅐㄴ얼뎌안아랴ㅓㅇ라ㅣㄴ이"),
-        DummyData("2020.09.11", "이스트소프트 상빙ㄹ....", "내욘ㅇㄴㅇ런ㅇ래ㅑ너야ㅐ러ㅐㄴ얼뎌안아랴ㅓㅇ라ㅣㄴ이"),
-        DummyData("2020.09.11", "이스트소프트 상빙ㄹ....", "내욘ㅇㄴㅇ런ㅇ래ㅑ너야ㅐ러ㅐㄴ얼뎌안아랴ㅓㅇ라ㅣㄴ이"),
-        DummyData("2020.09.11", "이스트소프트 상빙ㄹ....", "내욘ㅇㄴㅇ런ㅇ래ㅑ너야ㅐ러ㅐㄴ얼뎌안아랴ㅓㅇ라ㅣㄴ이"),
-    )
+
+    private fun observeEvent() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.eventFlow.collect {
+                when (it) {
+                    is ViewModelEvent.NetworkError -> {
+                        Snackbar.make(binding.root, it.message, Snackbar.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+    }
 }

@@ -3,10 +3,10 @@ package com.onban.kauantapp.common.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import com.onban.kauantapp.data.SimilarNewsModel
 import com.onban.kauantapp.databinding.AnalysisVp2ItemBinding
-import com.onban.kauantapp.view.DummyData
 
-class AnalysisListAdapter : BaseListAdapter<DummyData, AnalysisVp2ItemBinding>(AnalysisDiffCallback) {
+class SimilarNewsListAdapter : BaseListAdapter<SimilarNewsModel, AnalysisVp2ItemBinding>(SimilarNewsDiffCallback) {
     override fun createBinding(parent: ViewGroup): AnalysisVp2ItemBinding {
         val inflater = LayoutInflater.from(parent.context)
         return AnalysisVp2ItemBinding.inflate(inflater, parent, false)
@@ -17,19 +17,19 @@ class AnalysisListAdapter : BaseListAdapter<DummyData, AnalysisVp2ItemBinding>(A
 
     override fun bind(holder: BaseViewHolder<AnalysisVp2ItemBinding>, position: Int) {
         with(holder.binding) {
-            dummyData = getItem(position)
+            similarNewsModel = getItem(position)
             executePendingBindings()
         }
     }
 }
 
-object AnalysisDiffCallback : DiffUtil.ItemCallback<DummyData>() {
+object SimilarNewsDiffCallback : DiffUtil.ItemCallback<SimilarNewsModel>() {
 
-    override fun areItemsTheSame(oldItem: DummyData, newItem: DummyData): Boolean {
+    override fun areItemsTheSame(oldItem: SimilarNewsModel, newItem: SimilarNewsModel): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: DummyData, newItem: DummyData): Boolean {
+    override fun areContentsTheSame(oldItem: SimilarNewsModel, newItem: SimilarNewsModel): Boolean {
         return oldItem.title == newItem.title
     }
 }

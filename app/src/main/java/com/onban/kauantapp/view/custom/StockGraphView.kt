@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import com.onban.kauantapp.R
+import com.onban.kauantapp.data.StockItem
 import kotlin.math.abs
 
 class StockGraphView : View {
@@ -158,9 +159,4 @@ class StockGraphView : View {
     private fun drawGraphZeroText(c: Canvas) {
         c.drawText(zeroText, measuredWidth * 0.05f, measuredHeight / 2f + rect.height() / 2, zeroTextPaint)
     }
-
-    data class StockItem(
-        val value: Float,
-        val date: String,
-    )
 }

@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.onban.kauantapp.data.StockItem
 import com.onban.kauantapp.view.custom.StockGraphView
 import com.onban.network.data.CompanyData
 
@@ -26,6 +28,13 @@ fun <T, VH : RecyclerView.ViewHolder> RecyclerView.submitList(list: List<T>?) {
 
 @BindingAdapter(value = ["list", "callback"], requireAll = true)
 fun <T, VH : RecyclerView.ViewHolder> RecyclerView.submitList(list: List<T>?, callback: Runnable) {
+    list?.let {
+        (adapter as ListAdapter<T, VH>).submitList(list, callback)
+    }
+}
+
+@BindingAdapter(value = ["list", "callback"], requireAll = true)
+fun <T, VH : RecyclerView.ViewHolder> ViewPager2.submitList(list: List<T>?, callback: Runnable) {
     list?.let {
         (adapter as ListAdapter<T, VH>).submitList(list, callback)
     }
@@ -73,7 +82,7 @@ fun ProgressBar.setVisibleProgressBar(state: Boolean) {
 }
 
 @BindingAdapter("graphData")
-fun StockGraphView.setGraphData(list: List<StockGraphView.StockItem>?) {
+fun StockGraphView.setGraphData(list: List<StockItem>?) {
     list?.let {
         this.updateGraph(it)
     }
