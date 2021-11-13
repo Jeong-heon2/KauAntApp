@@ -33,14 +33,13 @@ class CircleProgressView : View {
     private val fillArcColor = context.resources?.getColor(R.color.eastsoft_back, null) ?: Color.BLUE
 
     private var currentPercentage = 0
-    private var percentage = 0f
+    private var percentage = 0
 
-    fun resetCurrentPercentage() {
+    fun update(percent: Int) {
         currentPercentage = 0
-    }
-
-    fun setPercentage(percent: Float) {
         percentage = percent
+        animator.cancel()
+        animateProgress()
     }
 
     private val backgroundArcPaint = Paint().apply {
@@ -57,6 +56,8 @@ class CircleProgressView : View {
         strokeWidth = 20f
         strokeCap = Paint.Cap.ROUND
     }
+
+    private val animator = ValueAnimator()
 
     private fun setOvalSpace() {
         val horizontalCenter = (width.div(2)).toFloat()
@@ -89,14 +90,14 @@ class CircleProgressView : View {
     private fun getCurrentPercentageToFill() =
         (PERCENTAGE_MAX * (currentPercentage / PERCENTAGE_DIVIDER)).toFloat()
 
-    fun animateProgress() {
-        val valuesHolder = PropertyValuesHolder.ofFloat(PERCENTAGE_VALUE_HOLDER, 0f, percentage)
-        val animator = ValueAnimator().apply {
+    private fun animateProgress() {
+        val valuesHolder = PropertyValuesHolder.ofInt(PERCENTAGE_VALUE_HOLDER, 0, percentage)
+        animator.apply {
             setValues(valuesHolder)
             duration = 1000
             addUpdateListener {
-                val percentage = it.getAnimatedValue(PERCENTAGE_VALUE_HOLDER) as Float
-                currentPercentage = percentage.toInt()
+                val percentage = it.getAnimatedValue(PERCENTAGE_VALUE_HOLDER) as Int
+                currentPercentage = percentage
                 invalidate()
             }
         }

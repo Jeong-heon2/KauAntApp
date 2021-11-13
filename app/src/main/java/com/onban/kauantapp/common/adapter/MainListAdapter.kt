@@ -51,7 +51,7 @@ class MainListAdapter(
     fun getHeaderView(list: RecyclerView, position: Int): View? {
         val item = getItem(position)
 
-        //지금 뷰홀더에는 Item1Binding이 그려져있고  얘는 그려지지 않은 녀석임
+        //얘는 그려지지 않은 녀석임
         val binding = MainNewsTimelineBinding.inflate(LayoutInflater.from(list.context), list, false)
         binding.date = item.date
         binding.executePendingBindings()

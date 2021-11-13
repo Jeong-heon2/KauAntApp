@@ -10,4 +10,6 @@ class RemoteDataSource @Inject constructor(
 ) {
     suspend fun getCompanyNews(pageNo: Int, company: String) = newsApi.getNews(pageNo, company)
     suspend fun getCompanyList() = newsApi.getCompanyList()
+    suspend fun getAnalysisData(newsNo: String) = newsApi.getAnalysisData(newsNo)
+    suspend fun getSimilarityNews(newsNo: String, pageNo: Int) = newsApi.getSimilarityNews(newsNo, pageNo)
 }

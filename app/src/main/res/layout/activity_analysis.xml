@@ -5,14 +5,14 @@
 
     <data>
         <variable
-            name="company"
-            type="com.onban.network.data.CompanyEntity" />
-        <variable
-            name="newsData"
-            type="com.onban.network.data.NewsData" />
+            name="viewModel"
+            type="com.onban.kauantapp.viewmodel.AnalysisViewModel" />
         <variable
             name="activity"
             type="com.onban.kauantapp.view.AnalysisActivity" />
+        <variable
+            name="submitListCallback"
+            type="Runnable" />
     </data>
 
     <ScrollView
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="10dp"
-                    textFromCompany="@{company}"
+                    textFromCompany="@{viewModel.company}"
                     android:textSize="12dp"
                     android:paddingHorizontal="5dp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +54,7 @@
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:textSize="18dp"
-                    android:text="@{newsData.title}"
+                    android:text="@{viewModel.mainNewsData.title}"
                     android:layout_marginHorizontal="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +70,7 @@
                     android:ellipsize="end"
                     android:textSize="15dp"
                     android:textColor="@color/gray"
-                    android:text="@{newsData.desc}"
+                    android:text="@{viewModel.mainNewsData.desc}"
                     app:layout_constraintTop_toBottomOf="@id/tv_analysis_news_title"
                     app:layout_constraintStart_toStartOf="@id/tv_analysis_news_title"
                     app:layout_constraintEnd_toEndOf="@id/tv_analysis_news_title"
@@ -82,6 +82,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                list="@{viewModel.similarNewsList}"
+                callback="@{submitListCallback}"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
@@ -103,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray"
                     android:textSize="14sp"
-                    android:text="이스트 소프트 상반기 카카오 MOU 체결 호재?"
+                    android:text="@{viewModel.mainNewsData == null ? @string/analysis_similarity_loading : viewModel.mainNewsData.title}"
                     android:layout_margin="10dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -115,6 +117,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginTop="10dp"
+                    update="@{viewModel.selectedSimilarNews.similarity}"
                     app:layout_constraintVertical_chainStyle="packed"
                     app:layout_constraintStart_toEndOf="@id/tv_title_news"
                     app:layout_constraintEnd_toStartOf="@id/tv_similarity_news"
@@ -127,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@color/white"
-                    android:text="55% 일치"
+                    android:text="@{viewModel.selectedSimilarNews == null ? @string/analysis_similarity_loading : @string/analysis_similarity_text(viewModel.selectedSimilarNews.similarity)}"
                     android:layout_marginBottom="10dp"
                     app:layout_constraintTop_toBottomOf="@id/cpv_news"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -141,7 +144,7 @@
                     android:textColor="@color/gray"
                     android:textSize="14sp"
                     android:layout_margin="10dp"
-                    android:text="이스트 소프트 상반기 카카오 MOU 체결 호재?"
+                    android:text="@{viewModel.selectedSimilarNews == null ? @string/analysis_similarity_loading : viewModel.selectedSimilarNews.title}"
                     app:layout_constraintStart_toEndOf="@id/cpv_news"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -154,7 +157,7 @@
                 android:id="@+id/tv_analysis_graph_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/analysis_graph_title"
+                android:text="@{viewModel.selectedSimilarNews == null ? @string/analysis_similarity_loading : @string/analysis_graph_title(viewModel.selectedSimilarNews.date)}"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:layout_marginTop="20dp"
@@ -175,8 +178,30 @@
                 <com.onban.kauantapp.view.custom.StockGraphView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    graphData="@{activity.dummyStockList}"
+                    graphData="@{viewModel.selectedSimilarNews.stockPriceFluctuationList}"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cnstl_empty"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                visibilityIfEmpty="@{viewModel.similarNewsList == null ? true : false}"
+                app:layout_constraintTop_toBottomOf="@id/cnstl_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/app_background"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/analysis_empty"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>

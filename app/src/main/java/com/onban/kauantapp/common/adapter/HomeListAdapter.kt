@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.onban.kauantapp.databinding.HomeLogoItemBinding
-import com.onban.network.data.CompanyEntity
+import com.onban.network.data.CompanyData
 
 class HomeListAdapter(
-    val onItemClick: (CompanyEntity) -> Unit,
-) : BaseListAdapter<CompanyEntity, HomeLogoItemBinding>(CompanyLogoDiffCallback) {
+    val onItemClick: (CompanyData) -> Unit,
+) : BaseListAdapter<CompanyData, HomeLogoItemBinding>(CompanyLogoDiffCallback) {
 
     override fun createBinding(parent: ViewGroup): HomeLogoItemBinding {
         val inflater = LayoutInflater.from(parent.context)
@@ -31,13 +31,13 @@ class HomeListAdapter(
     }
 }
 
-object CompanyLogoDiffCallback : DiffUtil.ItemCallback<CompanyEntity>() {
+object CompanyLogoDiffCallback : DiffUtil.ItemCallback<CompanyData>() {
 
-    override fun areItemsTheSame(oldItem: CompanyEntity, newItem: CompanyEntity): Boolean {
+    override fun areItemsTheSame(oldItem: CompanyData, newItem: CompanyData): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: CompanyEntity, newItem: CompanyEntity): Boolean {
+    override fun areContentsTheSame(oldItem: CompanyData, newItem: CompanyData): Boolean {
         return oldItem.name == newItem.name
     }
 }

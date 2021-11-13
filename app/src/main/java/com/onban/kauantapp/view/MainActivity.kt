@@ -15,7 +15,7 @@ import com.onban.kauantapp.common.view.BaseActivity
 import com.onban.kauantapp.data.ViewModelEvent
 import com.onban.kauantapp.databinding.ActivityMainBinding
 import com.onban.kauantapp.viewmodel.MainViewModel
-import com.onban.network.data.CompanyEntity
+import com.onban.network.data.CompanyData
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private lateinit var adapter: MainListAdapter
     @Inject lateinit var viewModel: MainViewModel
-    private lateinit var companyEntity: CompanyEntity
+    private lateinit var companyData: CompanyData
 
     private val submitListCallback = Runnable {
         viewModel.setFetchEnable()
@@ -57,7 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         adapter = MainListAdapter {
             val intent = Intent(this, AnalysisActivity::class.java)
             intent.putExtra("newsData", it)
-            intent.putExtra("company", companyEntity)
+            intent.putExtra("company", companyData)
             startActivity(intent)
         }
 
@@ -82,9 +82,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun initData() {
-        companyEntity = intent.getSerializableExtra("company") as CompanyEntity
-        binding.tvMainTitle.text = getString(R.string.main_title, companyEntity.name)
-        viewModel.setCompany(companyEntity.name)
+        companyData = intent.getSerializableExtra("company") as CompanyData
+        binding.tvMainTitle.text = getString(R.string.main_title, companyData.name)
+        viewModel.setCompany(companyData.name)
         viewModel.fetchNextNews()
     }
 
