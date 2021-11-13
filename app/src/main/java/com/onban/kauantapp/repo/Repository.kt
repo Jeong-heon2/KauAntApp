@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import java.lang.Error
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,7 +33,7 @@ class Repository @Inject constructor(
                     }
                     when (val similarityRes = diff.await()) {
                         is NetworkResponse.Success -> {
-                            similarityRes.body.newsList[0]
+                            similarityRes.body.newsData
                             similarityRes.body.analysisDataList
                             toSimilarNewsModel(simData, similarityRes.body)
                         }
@@ -66,11 +65,11 @@ class Repository @Inject constructor(
 
     private fun toSimilarNewsModel(similarityData: SimilarityData, analysisNewsResponse: AnalysisNewsResponse): SimilarNewsModel =
         SimilarNewsModel(
-            date = analysisNewsResponse.newsList[0].date,
-            title = analysisNewsResponse.newsList[0].title,
-            description = analysisNewsResponse.newsList[0].desc,
+            date = analysisNewsResponse.newsData.date,
+            title = analysisNewsResponse.newsData.title,
+            description = analysisNewsResponse.newsData.desc,
             similarity = similarityData.similarity.toInt(),
-            url = analysisNewsResponse.newsList[0].newsUrl,
+            url = analysisNewsResponse.newsData.newsUrl,
             stockPriceFluctuationList = analysisNewsResponse.analysisDataList.map {
                 StockItem(
                     fluctuationToFloat(it.fluctuation),

@@ -79,7 +79,7 @@ class StockGraphView : View {
         var startX = getBarsStartX()
         val barMaxHeight = measuredHeight * 0.33f
         val maxValue = getMaxValue()
-        val centerY = measuredHeight / 2f
+        val centerY = getCenterY()
 
         stockItemList.forEachIndexed { index, stockItem ->
 
@@ -91,6 +91,8 @@ class StockGraphView : View {
             startX += getBarInterval()
         }
     }
+
+    private fun getCenterY() = measuredHeight * 0.55f
 
     private fun getBarsStartX(): Float = measuredWidth * 0.2f
 
@@ -109,7 +111,7 @@ class StockGraphView : View {
 
     private fun drawMetaDataList(c: Canvas) {
         val startX = measuredWidth * 0.75f
-        var startY = measuredHeight * 0.2f
+        var startY = measuredHeight * 0.25f
         stockItemList.forEachIndexed { index, stockItem ->
             drawMetaData(c, startX, startY, stockItem.value, graphBarColors[index])
             startY += measuredHeight * 0.15f
@@ -119,16 +121,18 @@ class StockGraphView : View {
     private fun drawTitle(c: Canvas) {
         if (stockItemList.isNotEmpty()) {
             val titleRect = Rect()
-            val date = stockItemList[stockItemList.size / 2].date
-            metaTextPaint.getTextBounds(date, 0, date.length, titleRect)
-            val startX = getBarsStartX() + getBarInterval() * 2 - titleRect.width() / 2
-            val startY = context.resources.displayMetrics.density * 20 // 10dp
-            c.drawText(
-                date,
-                startX,
-                startY,
-                metaTextPaint
-            )
+            if (stockItemList.isNotEmpty()) {
+                val date = stockItemList[2].date.substring(5)
+                metaTextPaint.getTextBounds(date, 0, date.length, titleRect)
+                val startX = getBarsStartX() + getBarInterval() * 2 - titleRect.width() / 2
+                val startY = context.resources.displayMetrics.density * 20 // 10dp
+                c.drawText(
+                    date,
+                    startX,
+                    startY,
+                    metaTextPaint
+                )
+            }
         }
     }
 
@@ -152,13 +156,13 @@ class StockGraphView : View {
 
     private fun drawCenterLine(c: Canvas) {
         val path = Path().apply {
-            moveTo(measuredWidth * 0.15f, measuredHeight / 2f)
-            lineTo(measuredWidth * 0.65f, measuredHeight / 2f)
+            moveTo(measuredWidth * 0.15f, getCenterY())
+            lineTo(measuredWidth * 0.65f, getCenterY())
         }
         c.drawPath(path, centerLinePaint)
     }
 
     private fun drawGraphZeroText(c: Canvas) {
-        c.drawText(zeroText, measuredWidth * 0.05f, measuredHeight / 2f + rect.height() / 2, zeroTextPaint)
+        c.drawText(zeroText, measuredWidth * 0.05f, getCenterY() + rect.height() / 2, zeroTextPaint)
     }
 }

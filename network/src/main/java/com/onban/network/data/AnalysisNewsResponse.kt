@@ -9,6 +9,6 @@ data class AnalysisData(
 )
 data class AnalysisNewsResponse(
     @SerializedName("code") val code: Int,
-    @SerializedName("result") val newsList: List<NewsData>,
+    @SerializedName("result") val newsData: NewsData,
     @SerializedName("result2") val analysisDataList: List<AnalysisData>,
 )
