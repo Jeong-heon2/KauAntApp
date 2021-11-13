@@ -46,6 +46,7 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
     private fun setBinding() {
         with(binding) {
             activity = this@AnalysisActivity
+            tvAnalysisGraphTitle.text = getString(R.string.analysis_graph_title, "2020.09.11")
         }
     }
 
