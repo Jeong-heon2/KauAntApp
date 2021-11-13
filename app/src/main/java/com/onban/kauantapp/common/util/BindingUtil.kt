@@ -6,11 +6,13 @@ import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.onban.kauantapp.data.StockItem
+import com.onban.kauantapp.view.custom.CircleProgressView
 import com.onban.kauantapp.view.custom.StockGraphView
 import com.onban.network.data.CompanyData
 
@@ -85,5 +87,21 @@ fun ProgressBar.setVisibleProgressBar(state: Boolean) {
 fun StockGraphView.setGraphData(list: List<StockItem>?) {
     list?.let {
         this.updateGraph(it)
+    }
+}
+
+@BindingAdapter("update")
+fun CircleProgressView.update(percent: Int?) {
+    percent?.let {
+        this.update(percent)
+    }
+}
+
+@BindingAdapter("visibilityIfEmpty")
+fun ConstraintLayout.setVisibilityIfEmpty(isEmpty: Boolean) {
+    if (isEmpty) {
+        this.visibility = View.VISIBLE
+    } else {
+        this.visibility = View.GONE
     }
 }

@@ -32,16 +32,6 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
         viewModel.setFetchEnable()
     }
 
-    val dummyStockList = MutableLiveData(
-        listOf<StockItem>(
-            StockItem(1.2f, "2020.09.09"),
-            StockItem(0.2f, "2020.09.10"),
-            StockItem(18.5f, "2020.09.11"),
-            StockItem(-22.5f, "2020.09.12"),
-            StockItem(5.5f, "2020.09.13"),
-        )
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setBinding()
@@ -70,8 +60,6 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
 
     private fun initViews() {
         setViewPager()
-        setSimilarityProgress(55f)
-        similarityProgressAnimationStart()
     }
 
     private fun initViewModel() {
@@ -115,15 +103,6 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
 
     private fun initAdapter() {
         adapter = SimilarNewsListAdapter()
-    }
-
-    private fun setSimilarityProgress(percent: Float) {
-        binding.cpvNews.resetCurrentPercentage()
-        binding.cpvNews.setPercentage(percent)
-    }
-
-    private fun similarityProgressAnimationStart() {
-        binding.cpvNews.animateProgress()
     }
 
     private fun observeEvent() {

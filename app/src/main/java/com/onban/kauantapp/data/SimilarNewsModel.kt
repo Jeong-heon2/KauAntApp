@@ -5,6 +5,7 @@ data class SimilarNewsModel (
     val title: String,
     val description: String,
     val similarity: Int,
+    val url: String,
     val stockPriceFluctuationList: List<StockItem>
 )
 

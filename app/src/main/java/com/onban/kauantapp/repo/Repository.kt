@@ -70,6 +70,7 @@ class Repository @Inject constructor(
             title = analysisNewsResponse.newsList[0].title,
             description = analysisNewsResponse.newsList[0].desc,
             similarity = similarityData.similarity.toInt(),
+            url = analysisNewsResponse.newsList[0].newsUrl,
             stockPriceFluctuationList = analysisNewsResponse.analysisDataList.map {
                 StockItem(
                     fluctuationToFloat(it.fluctuation),

@@ -65,11 +65,13 @@ class StockGraphView : View {
 
     override fun onDraw(canvas: Canvas?) {
         canvas?.let {
-            drawTitle(it)
-            drawBars(it)
-            drawGraphZeroText(it)
-            drawCenterLine(it)
-            drawMetaDataList(it)
+            if (stockItemList.isNotEmpty()) {
+                drawTitle(it)
+                drawBars(it)
+                drawGraphZeroText(it)
+                drawCenterLine(it)
+                drawMetaDataList(it)
+            }
         }
     }
 
