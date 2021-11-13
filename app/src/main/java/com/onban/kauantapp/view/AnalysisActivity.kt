@@ -1,18 +1,28 @@
 package com.onban.kauantapp.view
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.viewpager2.widget.ViewPager2
+import com.onban.kauantapp.R
 import com.onban.kauantapp.common.adapter.AnalysisListAdapter
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.common.view.BaseActivity
 import com.onban.kauantapp.databinding.ActivityAnalysisBinding
 import com.onban.kauantapp.view.custom.StockGraphView
+import com.onban.kauantapp.viewmodel.AnalysisViewModel
 import com.onban.network.data.CompanyData
 import com.onban.network.data.NewsData
+import javax.inject.Inject
 
 class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
 
     private lateinit var adapter: AnalysisListAdapter
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: AnalysisViewModel by viewModels { viewModelFactory}
 
     val dummyStockList = MutableLiveData(
         listOf<StockGraphView.StockItem>(
