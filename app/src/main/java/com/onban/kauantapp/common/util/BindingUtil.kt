@@ -16,11 +16,6 @@ import com.onban.kauantapp.view.custom.CircleProgressView
 import com.onban.kauantapp.view.custom.StockGraphView
 import com.onban.network.data.CompanyData
 
-@BindingAdapter("textFromString")
-fun TextView.setTextFromString(str: String) {
-    text = str
-}
-
 @BindingAdapter("submitList")
 fun <T, VH : RecyclerView.ViewHolder> RecyclerView.submitList(list: List<T>?) {
     list?.let {
