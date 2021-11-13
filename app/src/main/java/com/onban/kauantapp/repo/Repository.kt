@@ -11,4 +11,5 @@ class Repository @Inject constructor(
     suspend fun getCompanyNews(pageNo: Int, company: String) = remoteDataSource.getCompanyNews(pageNo, company)
     suspend fun getCompanyList() = remoteDataSource.getCompanyList()
     suspend fun getAnalysisData(newsNo: String) = remoteDataSource.getAnalysisData(newsNo)
+    suspend fun getSimilarityNews(newsNo: String, pageNo: Int) = remoteDataSource.getSimilarityNews(newsNo, pageNo)
 }

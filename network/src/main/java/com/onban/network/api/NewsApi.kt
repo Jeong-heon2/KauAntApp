@@ -1,9 +1,6 @@
 package com.onban.network.api
 
-import com.onban.network.data.AnalysisNewsResponse
-import com.onban.network.data.CompanyNewsResponse
-import com.onban.network.data.CompanyResponse
-import com.onban.network.data.NetworkResponse
+import com.onban.network.data.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -21,4 +18,10 @@ interface NewsApi {
 
     @GET("/news/{newsNo}")
     suspend fun getAnalysisData(@Path("newsNo") newsNo: String): NetworkResponse<AnalysisNewsResponse, Error>
+
+    @GET("/similarity/{newsNo}")
+    suspend fun getSimilarityNews(
+        @Path("newsNo") newsNo: String,
+        @Query("pageNo") pageNo: Int,
+    ): NetworkResponse<SimilarityNewsResponse, Error>
 }
