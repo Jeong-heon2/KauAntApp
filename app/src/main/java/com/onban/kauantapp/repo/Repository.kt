@@ -9,5 +9,6 @@ class Repository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) {
     suspend fun getCompanyNews(pageNo: Int, company: String) = remoteDataSource.getCompanyNews(pageNo, company)
-    suspend fun getCompnayList() = remoteDataSource.getCompanyList()
+    suspend fun getCompanyList() = remoteDataSource.getCompanyList()
+    suspend fun getAnalysisData(newsNo: String) = remoteDataSource.getAnalysisData(newsNo)
 }

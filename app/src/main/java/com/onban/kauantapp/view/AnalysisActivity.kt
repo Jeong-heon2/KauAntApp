@@ -2,14 +2,12 @@ package com.onban.kauantapp.view
 
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
-import androidx.viewpager2.widget.ViewPager2
-import com.onban.kauantapp.R
 import com.onban.kauantapp.common.adapter.AnalysisListAdapter
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.common.view.BaseActivity
 import com.onban.kauantapp.databinding.ActivityAnalysisBinding
 import com.onban.kauantapp.view.custom.StockGraphView
-import com.onban.network.data.CompanyEntity
+import com.onban.network.data.CompanyData
 import com.onban.network.data.NewsData
 
 class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
@@ -59,7 +57,7 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
     private fun getDataFromIntent() {
         with(binding) {
             newsData = intent.getSerializableExtra("newsData") as NewsData
-            company = intent.getSerializableExtra("company") as CompanyEntity
+            company = intent.getSerializableExtra("company") as CompanyData
         }
     }
 

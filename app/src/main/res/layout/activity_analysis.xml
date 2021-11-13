@@ -6,7 +6,7 @@
     <data>
         <variable
             name="company"
-            type="com.onban.network.data.CompanyEntity" />
+            type="com.onban.network.data.CompanyData" />
         <variable
             name="newsData"
             type="com.onban.network.data.NewsData" />
