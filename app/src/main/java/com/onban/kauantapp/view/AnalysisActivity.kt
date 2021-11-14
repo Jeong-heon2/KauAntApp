@@ -1,9 +1,7 @@
 package com.onban.kauantapp.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -12,7 +10,6 @@ import com.onban.kauantapp.R
 import com.onban.kauantapp.common.adapter.SimilarNewsListAdapter
 import com.onban.kauantapp.common.app.GlobalApp
 import com.onban.kauantapp.common.view.BaseActivity
-import com.onban.kauantapp.data.StockItem
 import com.onban.kauantapp.data.ViewModelEvent
 import com.onban.kauantapp.databinding.ActivityAnalysisBinding
 import com.onban.kauantapp.viewmodel.AnalysisViewModel

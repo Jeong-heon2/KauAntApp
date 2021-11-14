@@ -83,7 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun initData() {
         companyData = intent.getSerializableExtra("company") as CompanyData
-        binding.tvMainTitle.text = getString(R.string.main_title, companyData.name)
+        binding.company = companyData
         viewModel.setCompany(companyData.name)
         viewModel.fetchNextNews()
     }

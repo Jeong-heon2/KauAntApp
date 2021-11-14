@@ -16,11 +16,6 @@ import com.onban.kauantapp.view.custom.CircleProgressView
 import com.onban.kauantapp.view.custom.StockGraphView
 import com.onban.network.data.CompanyData
 
-@BindingAdapter("textFromString")
-fun TextView.setTextFromString(str: String) {
-    text = str
-}
-
 @BindingAdapter("submitList")
 fun <T, VH : RecyclerView.ViewHolder> RecyclerView.submitList(list: List<T>?) {
     list?.let {
@@ -48,15 +43,19 @@ fun TextView.setTextFromDate(date: String) {
     text = tokens[1] + "-" + tokens[2]
 }
 
-@BindingAdapter("randomSizeTextFromCompany")
-fun TextView.setRandomSizeTextFromCompany(companyData: CompanyData) {
+@BindingAdapter("normalTextFromCompany")
+fun TextView.setNormalTextFromCompany(companyData: CompanyData) {
+    this.text = companyData.logo
+    this.setTextColor(Color.parseColor(companyData.textColor))
+}
+
+@BindingAdapter("randomSizeFromCompany")
+fun ConstraintLayout.setRandomSizeFromCompany(companyData: CompanyData) {
     val back = GradientDrawable().apply {
         cornerRadius = 20f
         color = ColorStateList.valueOf(Color.parseColor(companyData.backgroundColor))
     }
     this.background = back
-    this.text = companyData.logo
-    this.setTextColor(Color.parseColor(companyData.textColor))
     this.layoutParams?.let {
         it.height = RandUtil.getRandInt(250, 600)
         this.layoutParams = it
