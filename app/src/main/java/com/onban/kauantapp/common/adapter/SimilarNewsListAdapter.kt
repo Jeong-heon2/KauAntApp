@@ -6,13 +6,18 @@ import androidx.recyclerview.widget.DiffUtil
 import com.onban.kauantapp.data.SimilarNewsModel
 import com.onban.kauantapp.databinding.AnalysisVp2ItemBinding
 
-class SimilarNewsListAdapter : BaseListAdapter<SimilarNewsModel, AnalysisVp2ItemBinding>(SimilarNewsDiffCallback) {
+class SimilarNewsListAdapter(
+    private val onClick: (SimilarNewsModel) -> Unit,
+) : BaseListAdapter<SimilarNewsModel, AnalysisVp2ItemBinding>(SimilarNewsDiffCallback) {
     override fun createBinding(parent: ViewGroup): AnalysisVp2ItemBinding {
         val inflater = LayoutInflater.from(parent.context)
         return AnalysisVp2ItemBinding.inflate(inflater, parent, false)
     }
 
     override fun initViewHolder(binding: AnalysisVp2ItemBinding, getItemPosition: () -> Int) {
+        binding.root.setOnClickListener {
+            onClick.invoke(getItem(getItemPosition()))
+        }
     }
 
     override fun bind(holder: BaseViewHolder<AnalysisVp2ItemBinding>, position: Int) {
