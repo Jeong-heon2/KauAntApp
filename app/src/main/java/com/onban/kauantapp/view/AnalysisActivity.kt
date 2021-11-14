@@ -1,5 +1,6 @@
 package com.onban.kauantapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -32,7 +33,7 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setBinding()
-        observeEvent()
+        collectEvent()
         initViewModel()
         initAdapter()
         initViews()
@@ -51,18 +52,44 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
             activity = this@AnalysisActivity
             viewModel = this@AnalysisActivity.viewModel
             submitListCallback = this@AnalysisActivity.submitListCallback
-            tvAnalysisGraphTitle.text = getString(R.string.analysis_graph_title, "2020.09.11")
         }
     }
 
-    private fun initViews() {
-        setViewPager()
+    private fun initAdapter() {
+        adapter = SimilarNewsListAdapter {
+            moveToWebActivity(it.url)
+        }
+    }
+
+    private fun collectEvent() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.eventFlow.collect {
+                when (it) {
+                    is ViewModelEvent.NetworkError -> {
+                        Snackbar.make(binding.root, it.message, Snackbar.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun initViewModel() {
         viewModel.setMainNews(intent.getSerializableExtra("newsData") as NewsData)
         viewModel.setCompany(intent.getSerializableExtra("company") as CompanyData)
         viewModel.fetchNextSimilarityNews()
+    }
+
+    private fun initViews() {
+        setTitleNews()
+        setViewPager()
+    }
+
+    private fun setTitleNews() {
+        binding.cnstlTitle.setOnClickListener {
+            viewModel.mainNewsData.value?.let {
+                moveToWebActivity(it.newsUrl)
+            }
+        }
     }
 
     private fun setViewPager() {
@@ -98,19 +125,9 @@ class AnalysisActivity : BaseActivity<ActivityAnalysisBinding>() {
         }
     }
 
-    private fun initAdapter() {
-        adapter = SimilarNewsListAdapter()
-    }
-
-    private fun observeEvent() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.eventFlow.collect {
-                when (it) {
-                    is ViewModelEvent.NetworkError -> {
-                        Snackbar.make(binding.root, it.message, Snackbar.LENGTH_LONG).show()
-                    }
-                }
-            }
-        }
+    private fun moveToWebActivity(url: String) {
+        val intent = Intent(this, WebActivity::class.java)
+        intent.putExtra("url", url)
+        startActivity(intent)
     }
 }
