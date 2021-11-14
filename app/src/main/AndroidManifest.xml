@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KauAntApp">
         <activity
+            android:name=".view.WebActivity"
+            android:exported="true" />
+        <activity
             android:name=".view.AnalysisActivity"
             android:exported="true" />
         <activity
@@ -26,7 +29,7 @@
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>
