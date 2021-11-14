@@ -121,18 +121,16 @@ class StockGraphView : View {
     private fun drawTitle(c: Canvas) {
         if (stockItemList.isNotEmpty()) {
             val titleRect = Rect()
-            if (stockItemList.isNotEmpty()) {
-                val date = stockItemList[2].date.substring(5)
-                metaTextPaint.getTextBounds(date, 0, date.length, titleRect)
-                val startX = getBarsStartX() + getBarInterval() * 2 - titleRect.width() / 2
-                val startY = context.resources.displayMetrics.density * 20 // 10dp
-                c.drawText(
-                    date,
-                    startX,
-                    startY,
-                    metaTextPaint
-                )
-            }
+            val date = stockItemList[2].date.substring(5)
+            metaTextPaint.getTextBounds(date, 0, date.length, titleRect)
+            val startX = getBarsStartX() + getBarInterval() * 2 - titleRect.width() / 2
+            val startY = context.resources.displayMetrics.density * 20 // 10dp
+            c.drawText(
+                date,
+                startX,
+                startY,
+                metaTextPaint
+            )
         }
     }
 
