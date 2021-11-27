@@ -66,7 +66,7 @@ class StockGraphView : View {
     override fun onDraw(canvas: Canvas?) {
         canvas?.let {
             if (stockItemList.isNotEmpty()) {
-                drawTitle(it)
+                drawTitles(it)
                 drawBars(it)
                 drawGraphZeroText(it)
                 drawCenterLine(it)
@@ -118,13 +118,23 @@ class StockGraphView : View {
         }
     }
 
-    private fun drawTitle(c: Canvas) {
+    private fun drawTitles(c: Canvas) {
+        if (stockItemList.isEmpty()) return
+        val startY = context.resources.displayMetrics.density * 20 // 10dp
+        stockItemList.forEachIndexed { indexed, item ->
+            if (indexed == 0 || indexed == stockItemList.lastIndex) {
+                val date = item.date.substring(5)
+                val dateRect = Rect()
+                metaTextPaint.getTextBounds(date, 0, date.length, dateRect)
+                val startX =  getBarsStartX() + getBarInterval() * indexed - dateRect.width() / 2
+                drawDate(c, date, startX, startY, dateRect)
+            }
+        }
+    }
+
+    private fun drawDate(c: Canvas, date: String, startX: Float, startY: Float, dateRect: Rect) {
         if (stockItemList.isNotEmpty()) {
-            val titleRect = Rect()
-            val date = stockItemList[2].date.substring(5)
-            metaTextPaint.getTextBounds(date, 0, date.length, titleRect)
-            val startX = getBarsStartX() + getBarInterval() * 2 - titleRect.width() / 2
-            val startY = context.resources.displayMetrics.density * 20 // 10dp
+            metaTextPaint.getTextBounds(date, 0, date.length, dateRect)
             c.drawText(
                 date,
                 startX,
